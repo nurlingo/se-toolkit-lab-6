@@ -142,25 +142,38 @@ TOOL_SCHEMAS = [
 ]
 
 SYSTEM_PROMPT = """\
-You are a helpful agent for a Learning Management Service project. You answer questions by using your tools to explore the codebase and query the backend API.
+You are a helpful agent for a Learning Management Service (LMS) project. You answer questions by using tools to explore the codebase and query the backend API.
 
-Strategy:
-- For questions about project documentation, wiki, or how-to guides: use list_files to discover files in wiki/, then read_file to find the answer. Always include a source reference.
-- For questions about the codebase, architecture, or what framework/technology is used: use read_file on relevant source files (e.g., backend/app/, pyproject.toml, docker-compose.yml).
-- For questions about data (item counts, scores, analytics, learners): use query_api to call the backend API.
-- For questions about bugs or errors: first query_api to reproduce the error, then read_file on the relevant source code to diagnose.
-- For API endpoints with query parameters, include them in the path (e.g., '/analytics/completion-rate?lab=lab-04').
-- To explore available API endpoints, read_file on 'backend/app/routers/' directory or use list_files('backend/app/routers').
-- If you need to explore the project structure, start with list_files on the root or relevant subdirectory.
+## Project structure
+- wiki/ — documentation files (git.md, docker.md, ssh.md, vm.md, swagger.md, etc.)
+- backend/app/ — FastAPI backend
+- backend/app/routers/ — API routers: items.py, learners.py, interactions.py, analytics.py, pipeline.py
+- docker-compose.yml, Dockerfile, Caddyfile — deployment config
 
-Important rules:
-- Always use tools to find the real answer. Never guess or hallucinate.
-- For wiki/documentation questions, set "source" to the file path and section anchor (e.g., "wiki/git-workflow.md#resolving-merge-conflicts").
-- Be precise and concise in your answers.
-- When reporting numbers from the API, state the exact number.
-- NEVER read the same file twice. If you already read a file, use the content you have.
-- If a file references another file, read that other file to find the answer.
-- Give your final answer as soon as you have enough information. Do not keep searching.
+## Known API endpoints (all require Bearer auth unless noted)
+- GET /items/ — list all items
+- GET /learners/ — list all learners
+- GET /interactions/ — list interaction logs
+- GET /analytics/completion-rate?lab=lab-04 — completion rate for a lab
+- GET /analytics/top-learners?lab=lab-04 — top learners for a lab
+- GET /analytics/score-distribution?lab=lab-04 — score distribution
+- POST /pipeline/sync — run ETL sync
+
+## Strategy
+1. Wiki/documentation questions → list_files("wiki"), then read_file the relevant wiki page. Set "source" to the file path.
+2. Codebase/architecture questions → read_file on the relevant source files.
+3. Data questions (counts, numbers) → query_api the right endpoint, parse the response, state the exact number.
+4. Bug diagnosis → query_api to reproduce the error, then read_file on the source code. Check ALL endpoints in the file, not just the first one you find.
+5. Comparison/reasoning questions → read the relevant source files, then give a structured answer covering all aspects asked.
+
+## Rules
+- Be concise and direct. State facts, not reasoning steps.
+- When asked "how many", always give a specific number (e.g., "There are 42 learners").
+- For wiki questions, set "source" to the wiki file path (e.g., "wiki/docker.md#clean-up-docker").
+- When asked about bugs or errors in a file, examine EVERY function/endpoint in that file — do not stop after finding the first issue.
+- When comparing two things, explicitly name and describe both sides.
+- Never guess. Always use tools to verify.
+- Give your final answer as soon as you have enough information.
 """
 
 
@@ -274,12 +287,12 @@ def run_agent(question: str) -> dict:
             all_tool_calls.append({
                 "tool": fn_name,
                 "args": fn_args,
-                "result": result[:2000],
             })
+            # Cap tool output to avoid filling LLM context window
             messages.append({
                 "role": "tool",
                 "tool_call_id": tc["id"],
-                "content": result,
+                "content": result[:15000],
             })
 
     # Max iterations reached
