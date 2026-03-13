@@ -248,7 +248,7 @@ def run_agent(question: str) -> dict:
         {"role": "user", "content": question},
     ]
     all_tool_calls = []
-    max_iterations = 10
+    max_iterations = 12
 
     for i in range(max_iterations):
         print(f"[iteration {i+1}]", file=sys.stderr)
