@@ -378,7 +378,7 @@ Method 2:
 
 1. [Open the `VS Code Terminal`](#open-the-vs-code-terminal).
 2. [Check the current shell in the `VS Code Terminal`](#check-the-current-shell-in-the-vs-code-terminal).
-3. [Check whether you run in the `SSH` shell](./shell.md#check-what-shell-is-running)
+3. [Check whether you run in the `SSH` shell](./ssh.md#check-whether-you-run-an-ssh-shell) and decide whether you need to run an [SSH shell](./ssh.md#ssh-shell).
 4. Write or [paste](#paste-text-inside-the-vs-code-terminal) a [command](./shell.md#shell-command) or commands.
 5. Press `Enter`.
 
@@ -775,7 +775,7 @@ Follow the installation instructions for your platform:
 
 [image source](https://code.visualstudio.com/docs/remote/wsl)
 
-Steps:
+Complete these steps:
 
 1. [Enable `WSL`](https://code.visualstudio.com/docs/remote/wsl-tutorial#_enable-wsl).
 2. Open a terminal (not the `VS Code Terminal`).

@@ -3,67 +3,46 @@
 <h2>Table of contents</h2>
 
 - [What is quality assurance](#what-is-quality-assurance)
-- [Assertion](#assertion)
 - [Static analysis](#static-analysis)
-  - [Static analysis in this project](#static-analysis-in-this-project)
-- [Static analysis techniques](#static-analysis-techniques)
-  - [Formatting](#formatting)
   - [Linting](#linting)
   - [Type checking](#type-checking)
   - [Model checking](#model-checking)
 - [Dynamic analysis](#dynamic-analysis)
-  - [Dynamic analysis in this project](#dynamic-analysis-in-this-project)
-- [Dynamic analysis techniques](#dynamic-analysis-techniques)
   - [Testing](#testing)
+    - [Assertion](#assertion)
+    - [Unit test](#unit-test)
+    - [End-to-end test](#end-to-end-test)
+    - [Boundary value analysis](#boundary-value-analysis)
   - [Profiling](#profiling)
   - [Fuzzing](#fuzzing)
-- [Test types](#test-types)
-  - [Unit test](#unit-test)
-  - [End-to-end test](#end-to-end-test)
-- [Boundary value analysis](#boundary-value-analysis)
+- [Code transformation](#code-transformation)
+  - [Formatting](#formatting)
 
 ## What is quality assurance
 
-Quality assurance is the practice of verifying that software works correctly. It combines two approaches: [static analysis](#static-analysis), which inspects code without running it, and [dynamic analysis](#dynamic-analysis), which executes code with specific inputs and checks the outputs.
+<!-- TODO it's not only verification and not only about software but also about processes -->
+
+Quality assurance is the practice of ensuring that the software works as intended.
+
+It combines two approaches to identify problems with the code:
+
+- [Static analysis](#static-analysis), which inspects code without running it
+- [Dynamic analysis](#dynamic-analysis), which executes code with specific inputs and checks the outputs
+
+The identified problems are fixed via:
+
+- [Code transformation](#code-transformation)
 
 Together, these techniques catch bugs early, prevent regressions when code changes, and document the intended behavior of a program.
-
-Examples:
-
-- [`poe check`](./pyproject-toml.md#poe-check) — run all static analysis tools.
-- [`poe test`](./pyproject-toml.md#poe-test) — run all dynamic analysis tests.
-
-## Assertion
-
-An assertion is a statement that checks whether a given condition is true. If the condition is false, the assertion fails and raises an error, stopping the test immediately.
-
-Assertions are the primary mechanism for verifying expected behavior in tests — each test typically ends with one or more assertions that confirm the code produced the right result.
-
-Examples:
-
-- [The `assert` statement in `Python`](./python.md#the-assert-statement)
 
 ## Static analysis
 
 Static analysis checks code for errors without running it. It can detect type errors, undefined variables, and style issues.
 
-### Static analysis in this project
+Common methods:
 
-Static analysis is run with [`poe check`](./pyproject-toml.md#poe-check), which executes several tools in sequence.
-
-In the editor, [`Pylance`](./python.md#pylance) provides real-time static analysis as you type.
-
-## Static analysis techniques
-
-### Formatting
-
-<!-- TODO it's code transformation, not just analysis -->
-
-Formatting automatically adjusts code style — indentation, spacing, line length — to enforce a consistent appearance across the codebase. A formatter rewrites files in place without changing behavior.
-
-Examples:
-
-- [`poe format`](./pyproject-toml.md#poe-format) — format all [`Python`](./python.md#what-is-python) files using `ruff`.
+- [Linting](#linting)
+- [Type checking](#type-checking)
 
 ### Linting
 
@@ -90,39 +69,39 @@ Model checking verifies that a system satisfies a formal specification by system
 
 Dynamic analysis checks code behavior by executing it. Errors are only detected when the relevant code path actually runs.
 
-Examples:
+Common methods:
 
 - [Testing](#testing)
-
-### Dynamic analysis in this project
-
-Dynamic analysis is run with [`poe test`](./pyproject-toml.md#poe-test), which executes [unit tests](#unit-test) followed by [end-to-end tests](#end-to-end-test) using [`pytest`](./python.md#pytest).
-
-## Dynamic analysis techniques
+- [Profiling](#profiling)
+- [Fuzzing](#fuzzing)
 
 ### Testing
 
 Testing verifies that code produces expected outputs for given inputs. Each test typically calls a function or sends a request, then uses [assertions](#assertion) to check the result.
 
+Tests are usually grouped by scope — how much of the system each test exercises. Narrower tests run faster and pinpoint failures precisely; broader tests verify that components work together.
+
+Common methods:
+
+- [Unit testing](#unit-test)
+- [End-to-end testing](#end-to-end-test)
+- [Boundary value analysis](#boundary-value-analysis)
+
 Examples:
 
 - [Testing in `Python`](./python.md#testing)
 
-### Profiling
+#### Assertion
 
-Profiling measures how much time or memory each part of a program uses while it runs. It helps identify performance bottlenecks — functions that run too often or take too long.
+An assertion is a statement that checks whether a given condition is true. If the condition is false, the assertion fails and raises an error, stopping the test immediately.
 
-### Fuzzing
+Assertions are the primary mechanism for verifying expected behavior in tests — each test typically ends with one or more assertions that confirm the code produced the right result.
 
-Fuzzing feeds random or malformed inputs to a program to find crashes, hangs, or unexpected behavior. It is effective at discovering edge cases that manual [testing](#testing) might miss.
+Examples:
 
-## Test types
+- [The `assert` statement in `Python`](./python.md#the-assert-statement)
 
-<!-- TODO link to environments -->
-
-Tests are grouped by scope — how much of the system each test exercises. Narrower tests run faster and pinpoint failures precisely; broader tests verify that components work together.
-
-### Unit test
+#### Unit test
 
 A unit test verifies that an individual function or module works correctly in isolation. Unit tests are fast because they don't depend on external services like databases or network connections.
 
@@ -132,14 +111,33 @@ Examples:
 
 - [Testing in `Python`](./python.md#testing)
 
-### End-to-end test
+#### End-to-end test
 
 An end-to-end (E2E) test verifies that the full system works correctly by sending real [`HTTP` requests](./http.md#http-request) to the deployed application and checking the responses. E2E tests are slower than [unit tests](#unit-test) because they depend on running services.
 
 In this project, E2E tests are located in `backend/tests/e2e/` and run with [`poe test-e2e`](./pyproject-toml.md#poe-test-e2e).
 
-## Boundary value analysis
+#### Boundary value analysis
 
 Boundary value analysis is a testing technique that focuses on the edges of input ranges — values like `0`, `1`, an empty list, or the maximum allowed size. Bugs often occur at these boundaries because of off-by-one errors, missing edge-case handling, or incorrect comparison operators.
 
 When writing tests, check both sides of each boundary: the value just inside the valid range and the value just outside it.
+
+### Profiling
+
+Profiling measures how much time or memory each part of a program uses while it runs. It helps identify performance bottlenecks — functions that run too often or take too long.
+
+### Fuzzing
+
+Fuzzing feeds random or malformed inputs to a program to find crashes, hangs, or unexpected behavior. It is effective at discovering edge cases that manual [testing](#testing) might miss.
+
+## Code transformation
+
+After problems are found, the code must be transformed.
+
+- [Formatting](#formatting)
+
+### Formatting
+
+Formatting automatically adjusts code style — indentation, spacing, line length — to enforce a consistent appearance across the codebase.
+A formatter rewrites files in place without changing behavior.

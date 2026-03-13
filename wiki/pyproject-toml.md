@@ -43,8 +43,8 @@ requires-python = "==3.14.2"
 
 - **`name`** — the project name.
 - **`version`** — the current version of the project.
-- **`requires-python`** — the exact [`Python`](./python.md#what-is-python) version required. [`uv sync`](./python.md#install-python-and-dependencies) automatically downloads and uses this version.
-- **`dependencies`** — the list of packages required to run the application. [`uv`](./python.md#uv) installs them into the [virtual environment](./python.md#install-python-and-dependencies).
+- **`requires-python`** — the exact [`Python`](./python.md#what-is-python) version required. [`uv sync`](./vscode-python.md#install-python-and-dependencies) automatically downloads and uses this version.
+- **`dependencies`** — the list of packages required to run the application. [`uv`](./python.md#uv) installs them into the [virtual environment](./vscode-python.md#install-python-and-dependencies).
 
 ## `[dependency-groups]`
 

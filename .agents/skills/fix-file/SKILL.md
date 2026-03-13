@@ -13,11 +13,11 @@ Fix convention violations in a file using the report produced by `/review-file`.
    - If the IDE selection contains `**Suggested fix:**` (the selection may be just a few lines from a finding, or even only the suggested fix line), activate **single-fix mode** using the same file-path derivation above. The selected text is enough to locate the enclosing finding. `$ARGUMENTS` is not required.
    - Otherwise, parse `$ARGUMENTS` to get the file path. Accept:
      - Paths under `lab/tasks/` (e.g., `lab/tasks/setup.md`, `lab/tasks/required/task-2.md`)
-     - Paths under `wiki/` (e.g., `wiki/web-development.md`)
+     - Paths under `wiki/` (e.g., `wiki/api.md`)
      - Paths under `contributing/conventions/` (e.g., `contributing/conventions/writing/common.md`)
      - The repository root `AGENTS.md` file
      If the path is missing or does not match one of these patterns, ask the user.
-2. Derive the report path: `instructors/file-reviews/<repo-root-path>`, where `<repo-root-path>` is the target file's path from the repository root (e.g., `instructors/file-reviews/lab/tasks/required/task-1.md` for `lab/tasks/required/task-1.md`, `instructors/file-reviews/wiki/web-development.md` for `wiki/web-development.md`). If the report file does not exist, tell the user to run `/review-file <path>` first and stop.
+2. Derive the report path: `instructors/file-reviews/<repo-root-path>`, where `<repo-root-path>` is the target file's path from the repository root (e.g., `instructors/file-reviews/lab/tasks/required/task-1.md` for `lab/tasks/required/task-1.md`, `instructors/file-reviews/wiki/api.md` for `wiki/api.md`). If the report file does not exist, tell the user to run `/review-file <path>` first and stop.
 4. Read the report file.
 5. Read the target file.
 6. Read the convention files referenced in the report header so every fix is grounded in the actual convention text:

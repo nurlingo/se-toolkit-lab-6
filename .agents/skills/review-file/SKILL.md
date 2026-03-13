@@ -10,7 +10,7 @@ Review a single file for problems — first conceptual and pedagogical issues (f
 
 1. Parse `$ARGUMENTS` to get the file path. Accept:
    - Paths under `lab/tasks/` (e.g., `lab/tasks/setup.md`, `lab/tasks/required/task-2.md`)
-   - Paths under `wiki/` (e.g., `wiki/web-development.md`)
+   - Paths under `wiki/` (e.g., `wiki/api.md`)
    - Paths under `contributing/conventions/` (e.g., `contributing/conventions/writing/common.md`)
    - The repository root `AGENTS.md` file
    - The lab plan file `instructors/lab-plan.md`

@@ -4,6 +4,7 @@
 
 - [What is `GitHub`](#what-is-github)
 - [The `GitHub` site](#the-github-site)
+- [`GitHub` API](#github-api)
 - [`GitHub` username](#github-username)
   - [`<your-github-username>`](#your-github-username)
   - [Find `<your-github-username>`](#find-your-github-username)
@@ -59,9 +60,27 @@
 
 ## What is `GitHub`
 
+`GitHub` is a web-based platform for hosting [`Git`](./git.md#what-is-git) repositories and collaborating on software projects.
+
+It extends `Git` with features such as [issues](#issue) for tracking tasks and bugs, [pull requests](#pull-request) for proposing and reviewing changes, and [`GitHub Actions`](#github-actions) for automating workflows.
+
+Docs:
+
+- [GitHub Docs](https://docs.github.com)
+
 ## The `GitHub` site
 
 The `GitHub` site has this [URL](./computer-networks.md#url): <https://github.com>.
+
+## `GitHub` API
+
+The `GitHub` API is a [REST API](./rest-api.md#what-is-a-rest-api) that lets programs interact with `GitHub` resources — repositories, issues, pull requests, and more — without using the `GitHub` site.
+
+Requests to the `GitHub` API are [authenticated](./http-auth.md#http-authentication) using a [personal access token (PAT)](#personal-access-token-pat).
+
+Docs:
+
+- [GitHub REST API documentation](https://docs.github.com/en/rest)
 
 ## `GitHub` username
 
@@ -340,6 +359,10 @@ A [label](https://docs.github.com/en/issues/using-labels-and-milestones-to-track
 
 ## Settings
 
+- [Enable issues](#enable-issues)
+- [Add a collaborator](#add-a-collaborator)
+- [Protect a branch](#protect-a-branch)
+
 ### Enable issues
 
 1. [Go to your fork](#go-to-your-fork).
@@ -383,7 +406,9 @@ A [label](https://docs.github.com/en/issues/using-labels-and-milestones-to-track
 
 ## Personal access token (PAT)
 
-<!-- TODO explain -->
+A personal access token (PAT) is a credential that authenticates you to [`GitHub`](#what-is-github) in place of a password.
+
+PATs are used when accessing `GitHub` over [`HTTPS`](./http.md#https) — for example, when pushing to a [repository](#repository) from the command line or making requests to the [`GitHub` API](#github-api).
 
 ### Create a PAT (classic)
 

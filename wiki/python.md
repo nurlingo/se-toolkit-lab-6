@@ -7,17 +7,18 @@
   - [Code blocks](#code-blocks)
   - [Documentation](#documentation)
   - [Docstring](#docstring)
-- [`uv`](#uv)
-  - [Install `uv`](#install-uv)
-- [Set up `Python` in `VS Code`](#set-up-python-in-vs-code)
-  - [Install `Python` and dependencies](#install-python-and-dependencies)
-  - [Check that `Python` works](#check-that-python-works)
-  - [Select the `Python` interpreter](#select-the-python-interpreter)
-  - [Check that the language server works](#check-that-the-language-server-works)
-- [Testing](#testing)
-  - [`pytest`](#pytest)
-  - [The `assert` statement](#the-assert-statement)
-- [`Pylance`](#pylance)
+- [Package managers](#package-managers)
+  - [`uv`](#uv)
+    - [Install `uv`](#install-uv)
+- [Quality assurance tools](#quality-assurance-tools)
+  - [Dynamic analysis tools](#dynamic-analysis-tools)
+    - [The `assert` statement](#the-assert-statement)
+    - [`pytest`](#pytest)
+  - [Static analysis tools](#static-analysis-tools)
+    - [`Pylance`](#pylance)
+    - [`ruff` (linter)](#ruff-linter)
+  - [Code transformation tools](#code-transformation-tools)
+    - [`ruff` (formatter)](#ruff-formatter)
 
 ## What is `Python`
 
@@ -54,11 +55,19 @@ def greet(name):
     return f"Hello, {name}!"
 ```
 
-## `uv`
+## Package managers
+
+- [`uv`](#uv)
+
+Docs:
+
+- [Package manager](./package-manager.md#what-is-a-package-manager)
+
+### `uv`
 
 `uv` is a modern package manager for [`Python`](#what-is-python).
 
-### Install `uv`
+#### Install `uv`
 
 1. [Check the current shell in the `VS Code Terminal`](./vs-code.md#check-the-current-shell-in-the-vs-code-terminal).
 
@@ -80,96 +89,29 @@ def greet(name):
    uv 0.10.4
    ```
 
-## Set up `Python` in `VS Code`
+## Quality assurance tools
 
-Complete these steps:
+See [Quality assurance](./quality-assurance.md#what-is-quality-assurance).
 
-1. [Install `Python` and dependencies](#install-python-and-dependencies).
-2. [Check that `Python` works](#check-that-python-works).
-3. [Select the `Python` interpreter](#select-the-python-interpreter).
-4. [Check that the language server works](#check-that-the-language-server-works).
+Tools:
 
-### Install `Python` and dependencies
+- [Dynamic analysis tools](#dynamic-analysis-tools)
+- [Static analysis tools](#static-analysis-tools)
+- [Code transformation tools](#code-transformation-tools)
 
-1. [Open in `VS Code` the project directory](./vs-code.md#open-the-directory).
-2. To install `Python` and project dependencies,
+### Dynamic analysis tools
 
-   [run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
-
-   ```terminal
-   uv sync
-   ```
-
-   This command automatically downloads the correct `Python` version, creates the `.venv` virtual environment, and installs all dependencies.
-
-3. The output should be similar to this:
-
-   ```terminal
-   Using CPython 3.14.2
-   Creating virtual environment at: .venv
-   Resolved 36 packages in 0.77ms
-   Installed 36 packages in 217ms
-   ```
-
-> [!NOTE]
-> The `.venv` directory contains the virtual environment.
-> That is, files and dependencies that are necessary to run the web server and other tools.
->
-> This directory is managed by [`uv`](#uv). You don't need to edit files in this directory manually.
-
-### Check that `Python` works
-
-1. [Open a new `VS Code Terminal`](./vs-code.md#open-a-new-vs-code-terminal).
-2. To check the `Python` version,
-
-   [run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
-
-   ```terminal
-   uv run python --version
-   ```
-
-3. The output should be similar to this:
-
-   ```terminal
-   Python 3.14.2
-   ```
-
-> [!NOTE]
-> The [`Python`](#what-is-python) version for this project is specified in the [`pyproject.toml`](../pyproject.toml) file using the `requires-python` setting.
-
-### Select the `Python` interpreter
-
-1. [Run using the `Command Palette`](./vs-code.md#run-a-command-using-the-command-palette):
-   `Python: Select Interpreter`.
-2. Click `Recommended` to select the interpreter in `./.venv/bin/python`.
-3. [Check that the language server works](#check-that-the-language-server-works).
-
-### Check that the language server works
-
-> [!NOTE]
-> See [`Pylance`](#pylance).
-
-1. [Open the file](./vs-code.md#open-the-file):
-   [`backend/app/main.py`](../backend/app/main.py).
-2. Hover over the `add_middleware` method.
-
-   You should see its type:
-
-   <img alt="Type on hover" src="./images/python/type-on-hover.png" style="width:300px">
-
-## Testing
-
-### `pytest`
-
-`pytest` is a testing framework for `Python`. It discovers and runs test functions automatically.
+- [The `assert` statement](#the-assert-statement)
+- [`pytest`](#pytest)
 
 Docs:
 
-- [`pytest` documentation](https://docs.pytest.org/)
+- [testing](./quality-assurance.md#testing).
 
-### The `assert` statement
+#### The `assert` statement
 
-The `assert` statement checks that a condition is true (see [Assertion](./quality-assurance.md#assertion)). If the condition is false, the test fails with an `AssertionError`.
+The `assert` statement checks that a condition is true (see [Assertion](./quality-assurance.md#assertion)).
+If the condition is false, the test fails with an `AssertionError`.
 
 ```python
 assert result == expected
@@ -179,6 +121,39 @@ Docs:
 
 - [`assert` statement](https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement)
 
-## `Pylance`
+#### `pytest`
+
+`pytest` is a testing framework for `Python`. It discovers and runs test functions automatically.
+
+Docs:
+
+- [`pytest` documentation](https://docs.pytest.org/)
+
+### Static analysis tools
+
+- [`Pylance`](#pylance)
+- [`ruff` (linter)](#ruff-linter)
+
+#### `Pylance`
 
 A [language server](./vs-code.md#language-server) for `Python` that provides static analysis features such as type checking and detection of undefined variables.
+
+#### `ruff` (linter)
+
+A fast [linter](./quality-assurance.md#linting) for `Python`.
+
+Docs:
+
+- [`ruff` documentation](https://docs.astral.sh/ruff/)
+
+### Code transformation tools
+
+- [`ruff` (formatter)]
+
+Docs:
+
+- [Code transformation](./quality-assurance.md#code-transformation)
+
+#### `ruff` (formatter)
+
+`ruff` checks code for errors and style violations and automatically rewrites files to enforce a consistent style (see [Code transformation](./quality-assurance.md#code-transformation)).

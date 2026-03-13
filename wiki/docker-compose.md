@@ -30,11 +30,9 @@ See also:
 
 A service is a named entry under the `services:` key in [`docker-compose.yml`](#docker-composeyml). It defines how to build or pull an [image](./docker.md#image) and run it as a [container](./docker.md#container).
 
-For example, this project defines four services in [`docker-compose.yml`](../docker-compose.yml): `app`, `postgres`, `pgadmin`, and `caddy`.
-
 ### Service name
 
-<!-- TODO -->
+A service name is the key used to identify a [service](#service) in [`docker-compose.yml`](#docker-composeyml). It is used to reference the service in `depends_on`, log output, and [`Docker Compose` networking](#docker-compose-networking).
 
 ## `Docker Compose` networking
 

@@ -18,12 +18,13 @@
 - [Login](#login)
   - [Login without password](#login-without-password)
   - [Login with password](#login-with-password)
-- [Check whether you run an `SSH` shell](#check-whether-you-run-an-ssh-shell)
-- [Common errors](#common-errors)
+- [`SSH` shell](#ssh-shell)
+  - [Check whether you run an `SSH` shell](#check-whether-you-run-an-ssh-shell)
+- [`scp`](#scp)
+- [Troubleshooting](#troubleshooting)
   - [`Permission denied (publickey)`](#permission-denied-publickey)
   - [`Bad owner or permissions`](#bad-owner-or-permissions)
   - [`Connection timed out`](#connection-timed-out)
-- [`scp`](#scp)
 
 ## What is `SSH`
 
@@ -38,9 +39,28 @@ All commands below assume a Unix shell: `Bash` (`Linux`, `WSL`) or `Zsh` (`macOS
 
 ## `SSH` keys
 
+`SSH` uses a key pair for authentication:
+
+<!-- no toc -->
+- [`SSH` public key](#ssh-public-key)
+- [`SSH` private key](#ssh-private-key)
+
 ### `SSH` public key
 
+An `SSH` public key is the shareable half of an [`SSH`](#what-is-ssh) key pair.
+
+You give your public key to [remote hosts](./computer-networks.md#remote-host) — they store it in `~/.ssh/authorized_keys` to recognize you on future connections.
+
+The public key file has a `.pub` extension (e.g., `se_toolkit_key.pub`).
+
 ### `SSH` private key
+
+An `SSH` private key is the secret half of an [`SSH`](#what-is-ssh) key pair.
+
+It stays on your local machine and is never shared. During authentication, `SSH` uses it to prove your identity without sending it over the [network](./computer-networks.md#what-is-a-network).
+
+> [!CAUTION]
+> Never share your private key. Anyone who has it can authenticate as you.
 
 ## `SSH` daemon
 
@@ -60,14 +80,14 @@ See [Start the `ssh-agent`](#start-the-ssh-agent) for setup instructions.
 
 Set up [`SSH`](#what-is-ssh) to connect to a [remote host](./computer-networks.md#remote-host).
 
-Steps:
+Complete these steps:
 
 <!-- no toc -->
 1. [Check your current shell](./vs-code.md#check-the-current-shell-in-the-vs-code-terminal).
-2. [Create a new `SSH` key](#create-a-new-ssh-key)
-3. [Find the `SSH` key files](#find-the-ssh-key-files)
-4. [Start the `ssh-agent`](#start-the-ssh-agent)
-5. [Verify the `SSH` setup](#verify-the-ssh-setup)
+2. [Create a new `SSH` key](#create-a-new-ssh-key).
+3. [Find the `SSH` key files](#find-the-ssh-key-files).
+4. [Start the `ssh-agent`](#start-the-ssh-agent).
+5. [Verify the `SSH` setup](#verify-the-ssh-setup).
 
 ### Create a new `SSH` key
 
@@ -75,7 +95,7 @@ Generate a key pair: a **private key** (secret) and a **public key** (safe to sh
 
 We'll use the `ed25519` algorithm, which is the modern standard for security and performance.
 
-Steps:
+Complete these steps:
 
 1. To generate the key pair,
 
@@ -256,7 +276,13 @@ Password-based authentication asks you to type the remote user's password.
 
 2. Type the VM's root password when prompted.
 
-## Check whether you run an `SSH` shell
+## `SSH` shell
+
+An `SSH` shell is the interactive [shell](./shell.md#what-is-a-shell) session you get after [connecting to the VM](#connect-to-the-vm) over `SSH`.
+
+Commands you run in it execute on the remote machine, not on your local computer.
+
+### Check whether you run an `SSH` shell
 
 1. To check whether you run an `SSH` shell,
 
@@ -273,7 +299,24 @@ Password-based authentication asks you to type the remote user's password.
    - is an [IP address](./computer-networks.md#ip-address), you run in an `SSH` shell.
    - `-`, you run on your local [machine](./computer-networks.md#machine) (computer).
 
-## Common errors
+## `scp`
+
+`scp` (`Secure Copy`) copies [files](./file-system.md#file) between [machines](./computer-networks.md#machine) over [`SSH`](#what-is-ssh).
+
+Common pattern:
+
+```terminal
+scp -r <local-path> <user>@<host>:<remote-path>
+```
+
+The `-r` flag copies directories recursively.
+
+## Troubleshooting
+
+<!-- no toc -->
+- [`Permission denied (publickey)`](#permission-denied-publickey)
+- [`Bad owner or permissions`](#bad-owner-or-permissions)
+- [`Connection timed out`](#connection-timed-out)
 
 ### `Permission denied (publickey)`
 
@@ -326,15 +369,3 @@ Password-based authentication asks you to type the remote user's password.
    ```
 
 5. Try to stop, delete, and create a new VM if there are still problems.
-
-## `scp`
-
-`scp` (`Secure Copy`) copies files between machines over [`SSH`](#what-is-ssh).
-
-Common pattern:
-
-```terminal
-scp -r <local-path> <user>@<host>:<remote-path>
-```
-
-The `-r` flag copies directories recursively.

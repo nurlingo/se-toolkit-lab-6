@@ -6,6 +6,7 @@
 - [Operating systems](#operating-systems)
   - [`Linux`](#linux)
   - [`macOS`](#macos)
+  - [`iOS`](#ios)
   - [`Windows`](#windows)
     - [`WSL`](#wsl)
 - [Program](#program)
@@ -27,17 +28,27 @@ It handles memory allocation, process scheduling, file systems, and device I/O, 
 
 ## Operating systems
 
+- [`Linux`](#linux)
+- [`macOS`](#macos)
+- [`Windows`](#windows)
+
 ### `Linux`
 
-`Linux` is an open-source operating system commonly used for servers and [virtual machines](./vm.md).
+`Linux` is an [open-source](./software-types.md#software-types) operating system commonly used for servers and [virtual machines](./vm.md).
 
 See [`Linux`](./linux.md) for more details.
 
 ### `macOS`
 
-`macOS` is Apple's proprietary operating system for Mac computers.
+`macOS` is `Apple`'s [proprietary](./software-types.md#proprietary-software) operating system for `Mac` computers.
 
 It is based on `Unix`, so many command-line tools and workflows that work on `Linux` also work on `macOS`.
+
+### `iOS`
+
+`iOS` is `Apple`'s [proprietary](./software-types.md#proprietary-software) operating system for `iPhone`s and `iPad`s.
+
+Like `macOS`, it is based on `Darwin` (a `Unix`-like core), but it is designed for mobile devices with touchscreens rather than desktop computers.
 
 ### `Windows`
 
@@ -45,11 +56,11 @@ It is based on `Unix`, so many command-line tools and workflows that work on `Li
 
 It uses a different file system structure and command-line environment from `Linux` and `macOS`.
 
-Students on `Windows` can use [`WSL`](#wsl) (Windows Subsystem for Linux) to run a `Linux` environment.
+Students on `Windows` can use [`WSL`](#wsl) to run a `Linux` environment.
 
 #### `WSL`
 
-`WSL` (Windows Subsystem for Linux) is a feature of `Windows` that lets you run a `Linux` environment directly on `Windows`, without a virtual machine.
+`WSL` (Windows Subsystem for `Linux`) is a feature of `Windows` that lets you run a `Linux` environment directly on `Windows`, without a virtual machine.
 
 Docs:
 
@@ -94,13 +105,15 @@ PIDs are used by various system commands to interact with specific processes, su
 
 PIDs let the operating system handle multitasking.
 
+<!-- TODO command line -->
+
 ## Service
 
 A service is a long-running [process](#process) that performs specific system functions or provides functionality to other processes and applications.
 
 Services typically start automatically during system boot and run in the background without direct user interaction. They can be managed using system service managers like `systemd`, `init`, or service scripts.
 
-Common examples include [web servers](./http.md#web-server), [database servers](./database.md#database-server) (`MySQL`/`PostgreSQL`), [`SSH` daemons](./ssh.md#ssh-daemon), and network services.
+Common examples include [web servers](./web-infrastructure.md#web-server), [database servers](./database.md#database-server) (`MySQL`/`PostgreSQL`), [`SSH` daemons](./ssh.md#ssh-daemon), and network services.
 
 Services often [listen on specific ports](./computer-networks.md#listen-on-a-port) to handle incoming requests.
 

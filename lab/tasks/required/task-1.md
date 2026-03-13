@@ -34,17 +34,34 @@ uv run agent.py "What does REST stand for?"
 
 Your agent needs an LLM that supports the OpenAI-compatible chat completions API. You are free to use any provider.
 
-[OpenRouter](https://openrouter.ai) offers free models with no credit card required. Look for models that support **tool calling** — you will need this in later tasks.
+**Recommended: [Qwen Code API](../../wiki/qwen.md#set-up-the-qwen-code-api-remote-machine)**
 
-**Recommended models** (free, reliable tool calling):
+[Qwen Code](../../wiki/qwen.md#what-is-qwen-code) provides **1000 free requests per day**, works from Russia, and requires no credit card. Follow the [setup instructions](../setup-simple.md#17-set-up-llm-access-qwen-code-api) to deploy it on your VM.
 
 | Model | Tool calling | Notes |
 |-------|-------------|-------|
-| `meta-llama/llama-4-scout:free` | Strong | Best free option |
-| `meta-llama/llama-3.3-70b-instruct:free` | Strong | Reliable fallback |
-| `qwen/qwen-2.5-72b-instruct:free` | Good | Alternative |
+| `qwen3-coder-plus` | Strong | Recommended, default in `.env.agent.example` |
+| `coder-model` | Strong | Qwen 3.5 Plus |
 
-Register in OpenRouter and get an API key from them. This will be your LLM_API_KEY in `.env.agent.secret` (gitignored by the `*.secret` pattern). An example file is provided:
+<details><summary><b>Alternative: OpenRouter (click to open)</b></summary>
+
+[OpenRouter](https://openrouter.ai) offers free models with no credit card required.
+
+| Model | Tool calling | Notes |
+|-------|-------------|-------|
+| `meta-llama/llama-3.3-70b-instruct:free` | Strong | Good alternative |
+| `qwen/qwen3-coder:free` | Good | Alternative |
+
+> [!WARNING]
+> **OpenRouter free-tier limitations:**
+> - Free models have a **50 requests per day** limit per account.
+> - Free models can be **temporarily unavailable** due to upstream provider load (`429` errors).
+> - The autochecker runs 20 questions against your agent — free-tier rate limits may cause failures.
+> - If you use OpenRouter, plan your testing carefully: use `run_eval.py --index N` to test one question at a time.
+
+</details>
+
+Create the agent environment file:
 
 ```bash
 cp .env.agent.example .env.agent.secret
@@ -53,12 +70,6 @@ cp .env.agent.example .env.agent.secret
 Edit `.env.agent.secret` and fill in `LLM_API_KEY`, `LLM_API_BASE`, and `LLM_MODEL`. Your agent reads from this file.
 
 > **Note:** This is **not** the same as `LMS_API_KEY` in `.env.docker.secret`. That one protects your backend LMS endpoints. `LLM_API_KEY` authenticates with your LLM provider.
-
-> [!WARNING]
-> Free-tier models on OpenRouter have a **50 requests per day** limit per account. Plan your testing carefully:
-> - Use short, focused test runs instead of running the full eval repeatedly.
-> - Consider creating multiple OpenRouter accounts if you hit the limit.
-> - Implement retry logic with backoff for `429` errors (see [Optional Task 1](../optional/task-1.md#advanced-agent-features)).
 
 ## Deliverables
 

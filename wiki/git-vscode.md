@@ -62,67 +62,30 @@ Docs:
 
 ### Clone the repo using the `VS Code Terminal`
 
-1. Open `VS Code`.
-2. [Open the `VS Code Terminal`](./vs-code.md#open-the-vs-code-terminal).
-3. To create the [directory](./file-system.md#directory) where you want to clone the repo,
+1. To clone the repo,
 
    [run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
-   mkdir -p <directory-path>
+   git clone <repo-url> <repo-path>
    ```
 
-   Replace `<directory-path>` with a [path](./file-system.md#path) to the directory.
+   Replace:
 
-   The output should be empty.
+   - [`<repo-url>`](./github.md#repo-url).
+   - `<repo-path>` with the path where you want to clone the repo.
 
    Example:
 
    ```terminal
-   mkdir -p microsoft
+   git clone https://github.com/inno-se-toolkit/se-toolkit-lab-6 ~/software-engineering-toolkit
    ```
 
-4. To navigate to the directory where you want to clone the repo,
+   See [Home directory (`~`)](./file-system.md#home-directory-).
 
-   [run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
+2. If `Git` asks for a password, provide [your `GitHub` PAT](./github.md#create-a-pat-classic).
 
-   ```terminal
-   cd <directory-path>
-   ```
-
-   The current directory in the [shell prompt](./shell.md#shell-prompt) should now end in `<directory-path>`.
-
-   Example:
-
-   ```terminal
-   username@hostname:~$ cd microsoft
-   ```
-
-   After `cd`:
-
-   ```terminal
-   username@hostname:~/microsoft$
-   ```
-
-5. To clone the repo,
-
-   [run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
-
-   ```terminal
-   git clone <repo-url>
-   ```
-
-   Replace [`<repo-url>`](./github.md#repo-url).
-
-   Example:
-
-   ```terminal
-   git clone https://github.com/microsoft/vscode
-   ```
-
-6. If `Git` asks for a password, provide [your `GitHub` PAT](./github.md#create-a-pat-classic).
-
-7. To verify that the repo was cloned,
+3. To verify that the repo was cloned,
 
    [run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
 
@@ -132,7 +95,7 @@ Docs:
 
    The output should include the `<repo-name>` - the name of the repo.
 
-8. To verify that the repo isn't empty,
+4. To verify that the repo isn't empty,
 
    [run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
 

@@ -8,12 +8,9 @@
 - [`pgAdmin`](#pgadmin)
 - [`SQL`](#sql)
 - [Database schema](#database-schema)
+- [Database table](#database-table)
 - [Database row](#database-row)
-- [ERD](#erd)
-  - [ERD notations](#erd-notations)
-    - [ERD in Chen notation](#erd-in-chen-notation)
-    - [ERD in crow's foot notation](#erd-in-crows-foot-notation)
-- [EERD](#eerd)
+- [Database modeling](#database-modeling)
 
 ## What is a database
 
@@ -29,14 +26,7 @@ Examples of database servers: [`PostgreSQL`](./postgresql.md#postgresql-server),
 
 ## `PostgreSQL`
 
-[`PostgreSQL`](./postgresql.md#what-is-postgresql) is a popular open-source relational database server.
-
-Docs:
-
-- [Official PostgreSQL docs](https://www.postgresql.org/docs/)
-
-<!-- TODO move to postgres.md -->
-<!-- TODO update docker-postgres to reference postgres.md -->
+See [`PostgreSQL`](./postgresql.md#what-is-postgresql).
 
 ## `pgAdmin`
 
@@ -56,26 +46,18 @@ You can [inspect columns](./pgadmin.md#browse-columns-in-the-table) of a table i
 > The column names in the database must match the field names in the [`Python`](./python.md#what-is-python) code.
 > If they don't match, the application will fail to read data from the database.
 
+## Database table
+
+A database table is a collection of related data organized into rows and columns.
+
+Each table represents one entity type (e.g., `users`, `todos`). The columns of a table are defined by the [database schema](#database-schema).
+
 ## Database row
 
-<!-- TODO -->
+A database row (also called a record) is a single entry in a [database table](#database-table).
 
-## ERD
+Each row represents one instance of the entity and contains a value for each column.
 
-ERD (Entity-relationship diagram) is a visual representation of a data model.
+## Database modeling
 
-<!-- TODO improve description -->
-
-### ERD notations
-
-#### ERD in Chen notation
-
-See [Chen notation](https://www.red-gate.com/blog/chen-erd-notation/).
-
-#### ERD in crow's foot notation
-
-See [Crow’s Foot Notation](https://www.red-gate.com/blog/crow-s-foot-notation/).
-
-## EERD
-
-<!-- TODO add section content -->
+See [Database modeling](./database-modeling.md#what-is-database-modeling).

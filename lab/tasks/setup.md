@@ -229,7 +229,7 @@ If you can't [connect to your VM](../../wiki/vm.md#connect-to-the-vm), complete 
 
 #### 1.9.2. Set up `Python` in `VS Code`
 
-1. [Set up `Python` in `VS Code`](../../wiki/python.md#set-up-python-in-vs-code).
+1. [Set up `Python` in `VS Code`](../../wiki/vscode-python.md#set-up-python-in-vs-code).
 
 ### 1.10. Set up the environment (on your laptop)
 
