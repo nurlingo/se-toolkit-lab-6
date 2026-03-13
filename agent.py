@@ -203,6 +203,31 @@ def _execute_tool(name: str, arguments: dict) -> str:
 # Agent loop
 # ---------------------------------------------------------------------------
 
+def _extract_source(answer: str, tool_calls: list[dict]) -> str | None:
+    """Pick the best source file from tool calls.
+
+    Heuristic: prefer wiki/ files mentioned in the answer, then fall back
+    to the last read_file path, then None.
+    """
+    read_paths = [
+        tc["args"].get("path", "")
+        for tc in tool_calls
+        if tc["tool"] == "read_file" and tc["args"].get("path")
+    ]
+    if not read_paths:
+        return None
+    # If the answer mentions a specific file path, prefer that
+    answer_lower = answer.lower()
+    for p in read_paths:
+        if p.lower() in answer_lower:
+            return p
+    # Prefer wiki files for documentation questions
+    wiki_paths = [p for p in read_paths if p.startswith("wiki/")]
+    if wiki_paths:
+        return wiki_paths[-1]
+    return read_paths[-1]
+
+
 def run_agent(question: str) -> dict:
     """Run the agentic loop and return the final JSON output."""
     messages = [
@@ -220,15 +245,18 @@ def run_agent(question: str) -> dict:
         if not tool_calls:
             # Final answer
             answer = (response_msg.get("content") or "").strip()
-            source = ""
-            # Try to extract source from the answer if it references a file
-            for tc in all_tool_calls:
-                if tc["tool"] == "read_file":
-                    source = tc["args"].get("path", "")
+            # Extract source: prefer the most relevant read_file path
+            # (wiki file for wiki questions, last read_file otherwise)
+            source = _extract_source(answer, all_tool_calls)
+            # Strip bulky result text — checker only needs tool names
+            compact_calls = [
+                {"tool": tc["tool"], "args": tc["args"]}
+                for tc in all_tool_calls
+            ]
             return {
                 "answer": answer,
                 "source": source,
-                "tool_calls": all_tool_calls,
+                "tool_calls": compact_calls,
             }
 
         # Process tool calls
@@ -255,10 +283,14 @@ def run_agent(question: str) -> dict:
             })
 
     # Max iterations reached
+    compact_calls = [
+        {"tool": tc["tool"], "args": tc["args"]}
+        for tc in all_tool_calls
+    ]
     return {
         "answer": "Could not determine answer within iteration limit.",
-        "source": "",
-        "tool_calls": all_tool_calls,
+        "source": None,
+        "tool_calls": compact_calls,
     }
 
 
