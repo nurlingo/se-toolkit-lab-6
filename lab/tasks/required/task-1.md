@@ -32,10 +32,7 @@ uv run agent.py "What does REST stand for?"
 
 ## How to get access to an LLM?
 
-> [!IMPORTANT]
-> **Do NOT use OpenAI, Anthropic, or other paid providers** — they require a credit card. Use one of the free options below.
-
-Your agent needs an LLM that supports the OpenAI-compatible chat completions API. Two free options:
+Your agent needs an LLM that supports the OpenAI-compatible chat completions API. Two **free** options — no credit card required:
 
 ### Option A: Qwen Code API (recommended)
 
